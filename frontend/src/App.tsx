@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Header } from './components/Header';
 import { StoryList } from './components/StoryList';
 import { Footer } from './components/Footer';
-import { generateStories } from './services/api';
+import { generateStories, getTrialStatus } from './services/api';
+import { getDeviceId } from './lib/fingerprint';
+import { useTokenStore } from './stores/tokenStore';
 import type { Story } from './services/api';
 import './App.css';
 
@@ -14,16 +16,54 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [generated, setGenerated] = useState(false);
+  const [deviceId, setDeviceId] = useState<string>('');
+  const [hasFreeTrial, setHasFreeTrial] = useState(true);
+  const { getActiveToken, updateTokenUsage, getTotalGenerations } = useTokenStore();
+
+  useEffect(() => {
+    async function init() {
+      const id = await getDeviceId();
+      setDeviceId(id);
+      try {
+        const status = await getTrialStatus(id);
+        setHasFreeTrial(status.has_free_trial);
+      } catch {
+        // ignore
+      }
+    }
+    init();
+  }, []);
+
+  const totalCredits = getTotalGenerations();
+  const canGenerate = hasFreeTrial || totalCredits > 0;
 
   const handleGenerate = async () => {
     setLoading(true);
     setError('');
     try {
-      const data = await generateStories(year, i18n.language.split('-')[0]);
+      const activeToken = getActiveToken();
+      const data = await generateStories(
+        year,
+        i18n.language.split('-')[0],
+        activeToken ? undefined : deviceId,
+        activeToken?.token,
+      );
       setStories(data.stories);
       setGenerated(true);
-    } catch {
-      setError(t('errorGenerate'));
+
+      // Update local state after usage
+      if (activeToken) {
+        updateTokenUsage(activeToken.token, activeToken.remaining_generations - 1);
+      } else {
+        setHasFreeTrial(false);
+      }
+    } catch (err: any) {
+      if (err.status === 402) {
+        setError(t('errorNeedCredits'));
+        setHasFreeTrial(false);
+      } else {
+        setError(t('errorGenerate'));
+      }
     } finally {
       setLoading(false);
     }
@@ -31,7 +71,14 @@ function App() {
 
   return (
     <div className="hn-page">
-      <Header year={year} setYear={setYear} onGenerate={handleGenerate} loading={loading} />
+      <Header
+        year={year}
+        setYear={setYear}
+        onGenerate={handleGenerate}
+        loading={loading}
+        canGenerate={canGenerate}
+        credits={hasFreeTrial ? 1 : totalCredits}
+      />
       <div className="hn-content">
         {error && <div className="hn-error">{error}</div>}
         {loading && (
@@ -46,9 +93,18 @@ function App() {
         {!loading && !generated && (
           <div className="hn-welcome">
             <p>{t('subtitle', { year })}</p>
-            <button className="hn-generate-btn" onClick={handleGenerate}>
-              {t('generate')} →
-            </button>
+            {canGenerate ? (
+              <button className="hn-generate-btn" onClick={handleGenerate}>
+                {t('generate')} →
+              </button>
+            ) : (
+              <div className="hn-need-credits">
+                <p>{t('needCreditsMsg')}</p>
+                <a href="/pricing" className="hn-generate-btn">
+                  {t('pricing.viewPricing')} →
+                </a>
+              </div>
+            )}
           </div>
         )}
       </div>

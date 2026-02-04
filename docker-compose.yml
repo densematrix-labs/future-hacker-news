@@ -1,24 +1,68 @@
-version: '3.8'
 services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "${FRONTEND_PORT:-3000}:80"
-    depends_on:
-      - backend
+  postgres:
+    image: postgres:15-alpine
+    container_name: future-hn-postgres
+    environment:
+      POSTGRES_DB: futurhn
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    container_name: future-hn-backend
+    environment:
+      - PYTHONPATH=/app
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/futurhn
+      - LLM_PROXY_URL=${LLM_PROXY_URL:-https://llm-proxy.densematrix.ai}
+      - LLM_PROXY_KEY=${LLM_PROXY_KEY:-}
+      - LLM_MODEL=${LLM_MODEL:-gemini-2.5-flash}
+      - CREEM_API_KEY=${CREEM_API_KEY:-creem_test_placeholder}
+      - CREEM_WEBHOOK_SECRET=${CREEM_WEBHOOK_SECRET:-whsec_placeholder}
+      - CREEM_PRODUCT_IDS=${CREEM_PRODUCT_IDS:-{}}
     ports:
-      - "${BACKEND_PORT:-8000}:8000"
-    env_file:
-      - .env
+      - "${BACKEND_PORT:-8006}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 15s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: future-hn-frontend
+    ports:
+      - "${FRONTEND_PORT:-3006}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+
+networks:
+  default:
+    name: future-hn-network

@@ -22,6 +22,8 @@
   "moreStories": "もっと見る",
   "errorGenerate": "生成に失敗しました。もう一度お試しください。",
   "errorDetails": "詳細の読み込みに失敗しました。",
+  "errorNeedCredits": "無料トライアルが終了しました。クレジットを購入してください。",
+  "needCreditsMsg": "無料トライアルが終了しました。クレジットを購入して続行してください。",
   "footer": "AIによって生成 • Y Combinatorとは無関係です",
   "guidelines": "ガイドライン",
   "faq": "よくある質問",
@@ -30,5 +32,30 @@
   "lists": "リスト",
   "legal": "法的情報",
   "apply": "YCに応募",
-  "contact": "お問い合わせ"
+  "contact": "お問い合わせ",
+  "nav": {
+    "home": "ホーム"
+  },
+  "pricing": {
+    "title": "料金",
+    "subtitle": "未来ハッカーニュースの生成回数を追加",
+    "freeNote": "各デバイスで1回無料でお試しいただけます！",
+    "popular": "人気",
+    "generations": "回生成",
+    "perGeneration": "1回あたり",
+    "save": "節約",
+    "buyNow": "購入する",
+    "feature1": "AI生成の未来HNフロントページ",
+    "feature2": "ストーリーの詳細とコメント",
+    "feature3": "全7言語対応",
+    "error": "チェックアウトの作成に失敗しました。もう一度お試しください。",
+    "viewPricing": "料金を見る"
+  },
+  "payment": {
+    "successTitle": "支払い成功！",
+    "successSubtitle": "クレジットがアカウントに追加されました。",
+    "tokenLabel": "トークン（将来の使用のために保存してください）",
+    "tokenHint": "このトークンを使用して、任意のデバイスでクレジットを復元できます",
+    "startUsing": "生成を開始"
+  }
 }

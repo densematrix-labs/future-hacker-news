@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const LANGUAGES = [
   { code: 'en', label: 'EN' },
@@ -17,18 +18,20 @@ interface HeaderProps {
   setYear: (year: number) => void;
   onGenerate: () => void;
   loading: boolean;
+  canGenerate?: boolean;
+  credits?: number;
 }
 
-export function Header({ year, setYear, onGenerate, loading }: HeaderProps) {
+export function Header({ year, setYear, onGenerate, loading, canGenerate = true, credits }: HeaderProps) {
   const { t, i18n } = useTranslation();
 
   return (
     <header className="hn-header">
       <div className="hn-header-inner">
         <div className="hn-header-left">
-          <a href="/" className="hn-logo">
+          <Link to="/" className="hn-logo">
             <span className="hn-logo-box">Y</span>
-          </a>
+          </Link>
           <span className="hn-site-name">
             <strong>{t('title')}</strong>
           </span>
@@ -38,10 +41,15 @@ export function Header({ year, setYear, onGenerate, loading }: HeaderProps) {
             <a href="#">{t('ask')}</a> |{' '}
             <a href="#">{t('show')}</a> |{' '}
             <a href="#">{t('jobs')}</a> |{' '}
-            <a href="#">{t('submit')}</a>
+            <Link to="/pricing" className="hn-nav-pricing">{t('pricing.title')}</Link>
           </nav>
         </div>
         <div className="hn-header-right">
+          {credits !== undefined && (
+            <span className="hn-credits">
+              🎫 {credits}
+            </span>
+          )}
           <select
             className="hn-year-select"
             value={year}
@@ -55,7 +63,7 @@ export function Header({ year, setYear, onGenerate, loading }: HeaderProps) {
           <button
             className="hn-go-btn"
             onClick={onGenerate}
-            disabled={loading}
+            disabled={loading || !canGenerate}
           >
             {loading ? '⏳' : t('generate')}
           </button>

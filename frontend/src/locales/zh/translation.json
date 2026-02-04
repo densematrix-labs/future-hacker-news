@@ -22,6 +22,8 @@
   "moreStories": "更多",
   "errorGenerate": "生成失败，请重试。",
   "errorDetails": "加载详情失败。",
+  "errorNeedCredits": "免费试用已用完，请购买次数继续使用。",
+  "needCreditsMsg": "免费试用已用完，购买次数以生成更多内容。",
   "footer": "由 AI 生成 • 与 Y Combinator 无关",
   "guidelines": "指南",
   "faq": "常见问题",
@@ -30,5 +32,30 @@
   "lists": "列表",
   "legal": "法律",
   "apply": "申请 YC",
-  "contact": "联系"
+  "contact": "联系",
+  "nav": {
+    "home": "首页"
+  },
+  "pricing": {
+    "title": "定价",
+    "subtitle": "获取更多未来黑客新闻生成次数",
+    "freeNote": "每台设备可免费试用 1 次！",
+    "popular": "热门",
+    "generations": "次生成",
+    "perGeneration": "每次",
+    "save": "节省",
+    "buyNow": "立即购买",
+    "feature1": "AI 生成的未来 HN 头版",
+    "feature2": "故事详情和评论",
+    "feature3": "支持全部 7 种语言",
+    "error": "创建结账失败，请重试。",
+    "viewPricing": "查看定价"
+  },
+  "payment": {
+    "successTitle": "支付成功！",
+    "successSubtitle": "次数已添加到您的账户。",
+    "tokenLabel": "您的令牌（请保存以备后用）",
+    "tokenHint": "使用此令牌可在任何设备上恢复次数",
+    "startUsing": "开始生成"
+  }
 }

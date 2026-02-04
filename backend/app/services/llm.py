@@ -1,16 +1,13 @@
 """LLM service for generating future HN content."""
 import json
-import os
 import re
 from openai import AsyncOpenAI
 
-LLM_PROXY_URL = os.getenv("LLM_PROXY_URL", "https://llm-proxy.densematrix.ai")
-LLM_PROXY_KEY = os.getenv("LLM_PROXY_KEY", "")
-LLM_MODEL = os.getenv("LLM_MODEL", "gemini-2.5-flash")
+from app.core.config import settings
 
 
 def get_client() -> AsyncOpenAI:
-    return AsyncOpenAI(base_url=LLM_PROXY_URL, api_key=LLM_PROXY_KEY)
+    return AsyncOpenAI(base_url=settings.LLM_PROXY_URL, api_key=settings.LLM_PROXY_KEY)
 
 
 def _extract_json(text: str):
@@ -67,7 +64,7 @@ Return a JSON array with exactly 30 items. Each item must have:
 Return ONLY the JSON array, no other text."""
 
     response = await client.chat.completions.create(
-        model=LLM_MODEL,
+        model=settings.LLM_MODEL,
         messages=[{"role": "user", "content": prompt}],
         temperature=0.9,
         max_tokens=8000,
@@ -110,7 +107,7 @@ Return a JSON object with:
 Return ONLY the JSON object, no other text."""
 
     response = await client.chat.completions.create(
-        model=LLM_MODEL,
+        model=settings.LLM_MODEL,
         messages=[{"role": "user", "content": prompt}],
         temperature=0.8,
         max_tokens=3000,
