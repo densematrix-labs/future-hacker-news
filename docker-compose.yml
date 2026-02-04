@@ -30,7 +30,7 @@ services:
       - CREEM_WEBHOOK_SECRET=${CREEM_WEBHOOK_SECRET:-whsec_placeholder}
       - CREEM_PRODUCT_IDS=${CREEM_PRODUCT_IDS:-{}}
     ports:
-      - "${BACKEND_PORT:-8006}:8000"
+      - "${BACKEND_PORT:-8070}:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -48,7 +48,7 @@ services:
       dockerfile: Dockerfile
     container_name: future-hn-frontend
     ports:
-      - "${FRONTEND_PORT:-3006}:80"
+      - "${FRONTEND_PORT:-3070}:80"
     depends_on:
       backend:
         condition: service_healthy
