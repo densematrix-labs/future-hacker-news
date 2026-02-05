@@ -1,0 +1,30 @@
+{
+  "tool": "Future Hacker News",
+  "tool_url": "https://future-hn.demo.densematrix.ai",
+  "dimensions": [
+    {
+      "name": "year",
+      "name_zh": "年份",
+      "values_en": ["2030", "2040", "2050", "2075", "2100", "2150", "2200", "2500", "3000"],
+      "values_zh": ["2030", "2040", "2050", "2075", "2100", "2150", "2200", "2500", "3000"]
+    },
+    {
+      "name": "category",
+      "name_zh": "类别",
+      "values_en": ["ai", "space", "biotech", "crypto", "quantum", "robotics", "climate", "startups", "programming"],
+      "values_zh": ["AI", "太空", "生物技术", "加密货币", "量子计算", "机器人", "气候", "创业", "编程"]
+    },
+    {
+      "name": "tone",
+      "name_zh": "风格",
+      "values_en": ["optimistic", "dystopian", "satirical", "realistic", "absurdist"],
+      "values_zh": ["乐观", "反乌托邦", "讽刺", "现实", "荒诞"]
+    }
+  ],
+  "combinations": [
+    ["year", "category"],
+    ["year", "tone"],
+    ["category", "tone"]
+  ],
+  "estimated_pages": 180
+}
