@@ -1,30 +1,65 @@
 {
-  "tool": "Future Hacker News",
   "tool_url": "https://future-hn.demo.densematrix.ai",
-  "dimensions": [
-    {
-      "name": "year",
-      "name_zh": "年份",
-      "values_en": ["2030", "2040", "2050", "2075", "2100", "2150", "2200", "2500", "3000"],
-      "values_zh": ["2030", "2040", "2050", "2075", "2100", "2150", "2200", "2500", "3000"]
+  "dimensions": {
+    "topic": {
+      "values": [
+        {"id": "ai", "en": "AI & Machine Learning"},
+        {"id": "crypto", "en": "Cryptocurrency"},
+        {"id": "space", "en": "Space Exploration"},
+        {"id": "biotech", "en": "Biotech"},
+        {"id": "quantum", "en": "Quantum Computing"},
+        {"id": "robotics", "en": "Robotics"},
+        {"id": "climate", "en": "Climate Tech"},
+        {"id": "vr", "en": "VR/AR"},
+        {"id": "web3", "en": "Web3"},
+        {"id": "autonomous", "en": "Autonomous Vehicles"},
+        {"id": "fusion", "en": "Nuclear Fusion"},
+        {"id": "neuralink", "en": "Brain-Computer Interface"},
+        {"id": "startup", "en": "Startups"},
+        {"id": "programming", "en": "Programming"},
+        {"id": "security", "en": "Cybersecurity"},
+        {"id": "cloud", "en": "Cloud Computing"},
+        {"id": "open-source", "en": "Open Source"},
+        {"id": "hardware", "en": "Hardware"},
+        {"id": "gaming", "en": "Gaming Tech"},
+        {"id": "fintech", "en": "FinTech"}
+      ]
     },
-    {
-      "name": "category",
-      "name_zh": "类别",
-      "values_en": ["ai", "space", "biotech", "crypto", "quantum", "robotics", "climate", "startups", "programming"],
-      "values_zh": ["AI", "太空", "生物技术", "加密货币", "量子计算", "机器人", "气候", "创业", "编程"]
+    "year": {
+      "values": [
+        {"id": "2025", "en": "2025"},
+        {"id": "2030", "en": "2030"},
+        {"id": "2040", "en": "2040"},
+        {"id": "2050", "en": "2050"},
+        {"id": "2075", "en": "2075"},
+        {"id": "2100", "en": "2100"}
+      ]
     },
-    {
-      "name": "tone",
-      "name_zh": "风格",
-      "values_en": ["optimistic", "dystopian", "satirical", "realistic", "absurdist"],
-      "values_zh": ["乐观", "反乌托邦", "讽刺", "现实", "荒诞"]
+    "tone": {
+      "values": [
+        {"id": "optimistic", "en": "Optimistic"},
+        {"id": "dystopian", "en": "Dystopian"},
+        {"id": "realistic", "en": "Realistic"},
+        {"id": "satirical", "en": "Satirical"},
+        {"id": "technical", "en": "Technical"},
+        {"id": "clickbait", "en": "Clickbait"},
+        {"id": "academic", "en": "Academic"},
+        {"id": "corporate", "en": "Corporate PR"}
+      ]
+    },
+    "event_type": {
+      "values": [
+        {"id": "breakthrough", "en": "Breakthrough"},
+        {"id": "acquisition", "en": "Acquisition"},
+        {"id": "ipo", "en": "IPO"},
+        {"id": "scandal", "en": "Scandal"},
+        {"id": "shutdown", "en": "Shutdown"},
+        {"id": "launch", "en": "Product Launch"},
+        {"id": "regulation", "en": "Regulation"},
+        {"id": "layoffs", "en": "Layoffs"},
+        {"id": "funding", "en": "Funding Round"},
+        {"id": "opensource", "en": "Open Source Release"}
+      ]
     }
-  ],
-  "combinations": [
-    ["year", "category"],
-    ["year", "tone"],
-    ["category", "tone"]
-  ],
-  "estimated_pages": 180
+  }
 }
