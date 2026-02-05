@@ -59,7 +59,7 @@ jobs:
       - name: Health check
         run: |
           sleep 30
-          curl -sf https://future-hn.demo.densematrix.ai/health || exit 1
+          curl -sf https://future-hacker-news.demo.densematrix.ai/health || exit 1
 
       - name: Notify Slack on success
         if: success()
